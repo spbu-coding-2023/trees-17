@@ -278,6 +278,28 @@ class BTreeTest {
         assertEquals(7, countNodes(tree))
     }
 
+    @Test
+    fun iteratorEmptyTree() {
+        val tree = BTree<Int, String>()
+        val iter = tree.iterator()
+        assertEquals(false, iter.hasNext())
+        assertThrows(NoSuchElementException::class.java) {
+            iter.next()
+        }
+    }
+
+    @Test
+    fun iteratorMixedElements() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        val iter = tree.iterator()
+        for (i in 1..7) {
+            assertEquals(true, iter.hasNext())
+            assertEquals(i, iter.next().key)
+        }
+        assertEquals(false, iter.hasNext())
+    }
+
 
 
     @Test
