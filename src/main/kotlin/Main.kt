@@ -48,5 +48,7 @@ fun main() {
     tree.remove(8)
     try {
         tree.add(1, "qwe")
-    } catch (ex : Exception) {}
+    } catch (ex: Exception) {
+        println(ex)
+    }
 }

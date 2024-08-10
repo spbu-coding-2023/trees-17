@@ -1,8 +1,7 @@
 package org.example
 
-class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
-    private inner class BTNIterator(root: BTNode<K, V>?)
-        : Iterator<BTNode<K, V>> {
+class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number {
+    private inner class BTNIterator(root: BTNode<K, V>?) : Iterator<BTNode<K, V>> {
         private var ns = ArrayDeque<BTNode<K, V>>()
 
         init {
@@ -19,7 +18,7 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
             return node
         }
 
-        private fun collect(r : BTNode<K, V>?) {
+        private fun collect(r: BTNode<K, V>?) {
             var n = r
             while (n != null) {
                 ns.add(n)
@@ -28,10 +27,10 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         }
     }
 
-    private var root : BTNode<K, V>? = null
-    private val printNode = {n : BTNode<K, V> -> print("${n.key}:${n.value} ")}
+    private var root: BTNode<K, V>? = null
+    private val printNode = { n: BTNode<K, V> -> print("${n.key}:${n.value} ") }
 
-    private fun insertNode(r : BTNode<K, V>?, n : BTNode<K, V>) : BTNode<K, V>{
+    private fun insertNode(r: BTNode<K, V>?, n: BTNode<K, V>): BTNode<K, V> {
         if (r == null)
             return n
         if (n.key < r.key)
@@ -43,7 +42,7 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         return r
     }
 
-    private fun removeNode(r : BTNode<K, V>?, k : K) : BTNode<K, V>? {
+    private fun removeNode(r: BTNode<K, V>?, k: K): BTNode<K, V>? {
         if (r == null)
             return null
         if (k < r.key)
@@ -65,7 +64,7 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         return r
     }
 
-    private fun findNode(r : BTNode<K, V>?, k : K) : BTNode<K, V>? {
+    private fun findNode(r: BTNode<K, V>?, k: K): BTNode<K, V>? {
         if (r == null)
             return null
         if (k < r.key)
@@ -75,7 +74,7 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         return r
     }
 
-    private fun dfs(r : BTNode<K, V>?, operation: ((BTNode<K, V>) -> Unit)) {
+    private fun dfs(r: BTNode<K, V>?, operation: ((BTNode<K, V>) -> Unit)) {
         if (r != null) {
             dfs(r.left, operation)
             operation(r)
@@ -83,7 +82,7 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         }
     }
 
-    private fun bfs(r : BTNode<K, V>?, operation: ((BTNode<K, V>) -> Unit)) {
+    private fun bfs(r: BTNode<K, V>?, operation: ((BTNode<K, V>) -> Unit)) {
         val queue = ArrayDeque<BTNode<K, V>>()
         if (r != null)
             queue.add(r)
@@ -97,14 +96,15 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         }
     }
 
-    override fun add(k : K, value: V) {
+    override fun add(k: K, value: V) {
         root = insertNode(root, BTNode(k, value))
     }
 
-    override fun remove(k : K) {
+    override fun remove(k: K) {
         removeNode(root, k)
     }
-    override fun find(k : K) : BTNode<K, V>? {
+
+    override fun find(k: K): BTNode<K, V>? {
         return findNode(root, k)
     }
 
