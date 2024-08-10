@@ -29,8 +29,21 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
     }
 
     private var root : BTNode<K, V>? = null
-    override fun add(k: K, value: V) {
-        TODO("Not yet implemented")
+
+    private fun insertNode(r : BTNode<K, V>?, n : BTNode<K, V>) : BTNode<K, V>{
+        if (r == null)
+            return n
+        if (n.key < r.key)
+            r.left = insertNode(r.left, n)
+        else if (n.key > r.key)
+            r.right = insertNode(r.right, n)
+        else
+            throw Exception("Key is already exists in tree!")
+        return r
+    }
+
+    override fun add(k : K, value: V) {
+        root = insertNode(root, BTNode(k, value))
     }
 
     override fun remove(k: K) {
