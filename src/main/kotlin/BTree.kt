@@ -42,14 +42,35 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         return r
     }
 
+    private fun removeNode(r : BTNode<K, V>?, k : K) : BTNode<K, V>? {
+        if (r == null)
+            return null
+        if (k < r.key)
+            r.left = removeNode(r.left, k)
+        else if (k > r.key)
+            r.right = removeNode(r.right, k)
+        else {
+            if (r.left == null)
+                return r.right
+            if (r.right == null)
+                return r.left
+            var current = r.right!!
+            while (current.left != null)
+                current = current.left!!
+            r.key = current.key
+            r.value = current.value
+            r.right = removeNode(r.right, current.key)
+        }
+        return r
+    }
+
     override fun add(k : K, value: V) {
         root = insertNode(root, BTNode(k, value))
     }
 
-    override fun remove(k: K) {
-        TODO("Not yet implemented")
+    override fun remove(k : K) {
+        removeNode(root, k)
     }
-
     override fun find(k: K): BTNode<K, V>? {
         TODO("Not yet implemented")
     }
