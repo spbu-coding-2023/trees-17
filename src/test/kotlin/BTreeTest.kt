@@ -170,6 +170,40 @@ class BTreeTest {
         assertEquals(0, countNodes(tree))
     }
 
+    @Test
+    fun findMinElement() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        val n = tree.find(1)
+        assertNotNull(n)
+        assertEquals(1, n?.key)
+        assertEquals("one", n?.value)
+    }
+
+    @Test
+    fun findMaxElement() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        val n1 = tree.find(7)
+        assertNotNull(n1)
+        assertEquals(7, n1?.key)
+        assertEquals("seven", n1?.value)
+        val n2 = tree.find(5)
+        assertNotNull(n2)
+        assertEquals(5, n2?.key)
+        assertEquals("five", n2?.value)
+    }
+
+    @Test
+    fun findRootElement() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        val n = tree.find(4)
+        assertNotNull(n)
+        assertEquals(4, n?.key)
+        assertEquals("four", n?.value)
+    }
+
 
     @Test
     fun mainTest() {
