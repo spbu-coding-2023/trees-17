@@ -241,6 +241,44 @@ class BTreeTest {
         assertEquals(7, countNodes(tree))
     }
 
+    @Test
+    fun bfsEmptyTree() {
+        val tree = BTree<Int, String>()
+        var count = 0
+        tree.bfs { count++ }
+        assertEquals(0, count)
+    }
+
+    @Test
+    fun bfsOneElement() {
+        val tree = BTree<Int, String>()
+        tree.add(1, "one")
+        var count = 0
+        tree.bfs { n ->
+            count++
+            assertEquals(1, n.key)
+        }
+        assertEquals(1, count)
+    }
+
+    @Test
+    fun bfsMixedElements() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        val builder = StringBuilder()
+        tree.bfs { n -> builder.append("${n.key} ") }
+        assertEquals("4 2 5 1 3 6 7 ", builder.toString())
+    }
+
+    @Test
+    fun bfsWithoutOperation() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        tree.bfs()
+        assertEquals(7, countNodes(tree))
+    }
+
+
 
     @Test
     fun mainTest() {
