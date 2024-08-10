@@ -29,6 +29,7 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
     }
 
     private var root : BTNode<K, V>? = null
+    private val printNode = {n : BTNode<K, V> -> print("${n.key}:${n.value} ")}
 
     private fun insertNode(r : BTNode<K, V>?, n : BTNode<K, V>) : BTNode<K, V>{
         if (r == null)
@@ -74,6 +75,14 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         return r
     }
 
+    private fun dfs(r : BTNode<K, V>?, operation: ((BTNode<K, V>) -> Unit)) {
+        if (r != null) {
+            dfs(r.left, operation)
+            operation(r)
+            dfs(r.right, operation)
+        }
+    }
+
     override fun add(k : K, value: V) {
         root = insertNode(root, BTNode(k, value))
     }
@@ -87,5 +96,9 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
 
     override fun iterator(): Iterator<BTNode<K, V>> {
         return BTNIterator(root)
+    }
+
+    fun dfs(operation: ((BTNode<K, V>) -> Unit) = printNode) {
+        dfs(root, operation)
     }
 }
