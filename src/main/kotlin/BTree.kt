@@ -64,6 +64,16 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         return r
     }
 
+    private fun findNode(r : BTNode<K, V>?, k : K) : BTNode<K, V>? {
+        if (r == null)
+            return null
+        if (k < r.key)
+            return findNode(r.left, k)
+        else if (k > r.key)
+            return findNode(r.right, k)
+        return r
+    }
+
     override fun add(k : K, value: V) {
         root = insertNode(root, BTNode(k, value))
     }
@@ -71,8 +81,8 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
     override fun remove(k : K) {
         removeNode(root, k)
     }
-    override fun find(k: K): BTNode<K, V>? {
-        TODO("Not yet implemented")
+    override fun find(k : K) : BTNode<K, V>? {
+        return findNode(root, k)
     }
 
     override fun iterator(): Iterator<BTNode<K, V>> {
