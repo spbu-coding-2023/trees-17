@@ -109,6 +109,69 @@ class BTreeTest {
     }
 
     @Test
+    fun removeLeafElement() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        assertNotNull(tree.find(1))
+        assertEquals(7, countNodes(tree))
+        tree.remove(1)
+        assertNull(tree.find(1))
+        assertEquals(6, countNodes(tree))
+    }
+
+    @Test
+    fun removeElementWithBothChildren() {
+        val tree = BTree<Int, String>()
+        fillMixed2(tree)
+        assertNotNull(tree.find(2))
+        assertEquals(7, countNodes(tree))
+        tree.remove(2)
+        assertNull(tree.find(2))
+        assertEquals(6, countNodes(tree))
+    }
+
+    @Test
+    fun removeElementWithoutLeftChild() {
+        val tree = BTree<Int, String>()
+        fillOnlyRightChild(tree)
+        assertNotNull(tree.find(2))
+        assertEquals(3, countNodes(tree))
+        tree.remove(2)
+        assertNull(tree.find(2))
+        assertEquals(2, countNodes(tree))
+    }
+
+    @Test
+    fun removeElementWithoutRightChild() {
+        val tree = BTree<Int, String>()
+        fillOnlyLeftChild(tree)
+        assertNotNull(tree.find(2))
+        assertEquals(3, countNodes(tree))
+        tree.remove(2)
+        assertNull(tree.find(2))
+        assertEquals(2, countNodes(tree))
+    }
+
+    @Test
+    fun removeRootElement() {
+        val tree = BTree<Int, String>()
+        fillMixed(tree)
+        assertNotNull(tree.find(4))
+        assertEquals(7, countNodes(tree))
+        tree.remove(4)
+        assertNull(tree.find(4))
+        assertEquals(6, countNodes(tree))
+    }
+
+    @Test
+    fun removeFromEmptyTree() {
+        val tree = BTree<Int, String>()
+        tree.remove(1)
+        assertEquals(0, countNodes(tree))
+    }
+
+
+    @Test
     fun mainTest() {
         main()
     }
