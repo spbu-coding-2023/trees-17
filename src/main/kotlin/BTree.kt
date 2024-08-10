@@ -83,6 +83,20 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
         }
     }
 
+    private fun bfs(r : BTNode<K, V>?, operation: ((BTNode<K, V>) -> Unit)) {
+        val queue = ArrayDeque<BTNode<K, V>>()
+        if (r != null)
+            queue.add(r)
+        while (!queue.isEmpty()) {
+            val n = queue.removeFirst()
+            operation(n)
+            if (n.left != null)
+                queue.add(n.left!!)
+            if (n.right != null)
+                queue.add(n.right!!)
+        }
+    }
+
     override fun add(k : K, value: V) {
         root = insertNode(root, BTNode(k, value))
     }
@@ -100,5 +114,9 @@ class BTree<K, V> : Tree<K, V> where K : Comparable<K>, K : Number  {
 
     fun dfs(operation: ((BTNode<K, V>) -> Unit) = printNode) {
         dfs(root, operation)
+    }
+
+    fun bfs(operation: ((BTNode<K, V>) -> Unit) = printNode) {
+        bfs(root, operation)
     }
 }
